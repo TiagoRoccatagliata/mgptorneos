@@ -1,43 +1,33 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
 
-export default function LoginPage() {
-  const [documentNumber, setDocumentNumber] = useState('');
-  const [password, setPassword] = useState('');
+import '../App.css';
+import { Box } from '@mui/material';
+import MyTextField from './forms/MyTextField.jsx';
+import MyPassField from './forms/MyPassField.jsx';
+import MyButton from './forms/MyButton.jsx';
+import { Link } from 'react-router-dom';
 
-  const handleLogin = () => {
-    // Aquí puedes implementar la lógica para el inicio de sesión con tu backend.
-    console.log('Iniciar sesión con:', { documentNumber, password });
-  };
-
+const Login = () => {
   return (
-    <Box sx={{ width: 300, margin: 'auto', textAlign: 'center', padding: 2 }}>
-      <Typography variant="h5" gutterBottom>
-        Iniciar Sesión
-      </Typography>
-      <TextField
-        label="Número de Documento"
-        value={documentNumber}
-        onChange={(e) => setDocumentNumber(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Contraseña"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleLogin}
-        fullWidth
-      >
-        Iniciar Sesión
-      </Button>
-    </Box>
+    <div className="myBackground">
+      <Box className="whiteBox">
+        <Box className="itemBox">
+          <Box className="title">Inicio de Sesión</Box>
+        </Box>
+        <Box className="itemBox">
+          <MyTextField label="Documento" />
+        </Box>
+        <Box className="itemBox">
+          <MyPassField label="Contraseña" />
+        </Box>
+        <Box className="itemBox">
+          <MyButton label="Iniciar Sesión" />
+        </Box>
+        <Box className="itemBox">
+          <Link to="/register">¿Sin cuenta? Regístrate Gratis!</Link>
+        </Box>
+      </Box>
+    </div>
   );
-}
+};
+
+export default Login;
