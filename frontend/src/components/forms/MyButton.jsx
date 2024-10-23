@@ -2,11 +2,11 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 
 export default function MyButton(props) {
-    const {label} = props
+    const {label, type} = props
   return (
 
 
-      <Button variant="contained" className={"myForm"}>
+      <Button type={type} variant="contained" className={"myForm"}>
           {label}
       </Button>
 
