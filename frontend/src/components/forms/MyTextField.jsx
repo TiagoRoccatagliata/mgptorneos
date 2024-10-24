@@ -12,6 +12,7 @@ export default function MyTextField(props) {
     <Controller
       name = {name}
       control = {control}
+      defaultValue=""  // Asegura que el valor inicial no sea undefined
       render = {({
         field:{onChange, value},
         fieldState:{error},
@@ -21,7 +22,7 @@ export default function MyTextField(props) {
           <TextField
       id="outlined-basic"
       onChange = {onChange}
-      value = {value}
+      value={value || ""}  // Asegura que no sea undefined
       label={label}
       variant="outlined"
       className="myForm"

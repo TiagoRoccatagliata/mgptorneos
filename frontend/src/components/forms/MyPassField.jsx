@@ -22,6 +22,7 @@ export default function MyPassField(props) {
       <Controller
       name = {name}
       control = {control}
+      defaultValue=""  // Asegura que el valor inicial no sea undefined
       render = {({
         field:{onChange, value},
         fieldState:{error},
@@ -33,7 +34,7 @@ export default function MyPassField(props) {
       <OutlinedInput
         id="outlined-adornment-password"
         onChange={onChange}
-        value={value}
+        value={value || ""}  // Asegura que no sea undefined
         error={!!error}
         type={showPassword ? 'text' : 'password'}
         endAdornment={
