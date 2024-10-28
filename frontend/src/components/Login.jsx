@@ -20,7 +20,7 @@ const submission = (data) => {
   .then((response) => {
     console.log(response)
     localStorage.setItem('Token', response.data.token)
-    navigate(`/home`)
+    navigate('/home')
   })
   .catch((error) => {
     console.error(error);

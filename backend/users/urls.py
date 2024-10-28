@@ -5,5 +5,5 @@ from .views import *
 router = DefaultRouter()
 router.register('register', RegisterViewset, basename='register')  # Cambia 'users' por 'register'
 router.register('login', LoginViewset, basename='login')  # Cambia 'users' por 'register'
-
+router.register('users', UserViewset, basename='users')
 urlpatterns = router.urls
