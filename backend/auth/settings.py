@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'users',
-    'knox'
+    'knox',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,8 @@ CORS_ALLOWED_ORIGINS = [
 AUTH_USER_MODEL = 'users.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-    'users.auth_backend.DocumentAuthBackend'
+   # 'users.auth_backend.DocumentAuthBackend'
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 ROOT_URLCONF = 'auth.urls'
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'auth.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -106,6 +108,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# EMAIL SETTINGS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'MGP Torneos'
+EMAIL_HOST_USER = 'mgptorneos@gmail.com'
+EMAIL_HOST_PASSWORD = 'lqst lfls plfx jyer'
 
 
 # Internationalization
