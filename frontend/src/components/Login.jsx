@@ -54,8 +54,9 @@ const submission = (data) => {
                   type="submit"
               />
             </Box>
-            <Box className="itemBox">
+            <Box className="itemBox" sx={{flexDirection:'column'}}>
               <Link to="/register">¿Sin cuenta? Regístrate Gratis!</Link>
+                <Link to="/request/password_reset">Olvidaste la Contraseña?</Link>
             </Box>
           </Box>
         </form>

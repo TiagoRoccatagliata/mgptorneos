@@ -3,43 +3,40 @@ import axios from 'axios';
 const baseUrl = 'http://127.0.0.1:8000/';
 
 const AxiosInstance = axios.create({
-    baseURL: baseUrl,  // Corregido a 'baseURL'
+    baseURL: baseUrl,
     timeout: 5000,
-    headers: {  // Corregido a 'headers'
+    headers: {
         "Content-Type": "application/json",
         accept: "application/json",
     }
 });
 
-//Utiliza Token que verifica si estas logueado para hacer una request
-
+// Interceptor de solicitud para agregar el token de autenticación
 AxiosInstance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('Token')
-
-        if(token){
-            config.headers.Authorization = `Token ${token}`
-        }
-        else{
-            config.headers.Authorization = `` //Si no hay token, envia Null 
+        const token = localStorage.getItem('Token');
+        if (token) {
+            config.headers.Authorization = `Token ${token}`;
         }
         return config;
-    } 
-    
-)
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
-
+// Interceptor de respuesta para manejar errores de autenticación
 AxiosInstance.interceptors.response.use(
     (response) => {
-        return response
+        return response;
     },
-    //Si no tengo token o ya no sirve, te envia al login
     (error) => {
-        if (error.response && error.response.status === 401){
-            localStorage.removeItem(`Token`)
-            window.location.href = '/' 
-        } 
+        if (error.response && error.response.status === 401) {
+            localStorage.removeItem('Token');
+            window.location.href = '/';
+        }
+        return Promise.reject(error); // Esto asegura que el error siga su curso
     }
-)
+);
 
 export default AxiosInstance;

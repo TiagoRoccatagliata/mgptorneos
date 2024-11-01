@@ -38,23 +38,24 @@ class LoginViewset(viewsets.ViewSet):
 
 class RegisterViewset(viewsets.ViewSet):
     permission_classes = [permissions.AllowAny]
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer  # Corregido el nombre de la clase serializer
+    serializer_class = RegisterSerializer
 
     def create(self, request):
-        serializer = self.serializer_class(data=request.data)  # Corrección en el nombre del serializer
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            try:
+                serializer.save()
+                return Response(serializer.data)
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 class UserViewset(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer  # Corregido el nombre de la clase serializer
+    serializer_class = RegisterSerializer
 
     def list(self, request):
-        queryset = User.objects.all()
-        serializer = self.serializer_class(queryset, many = True)
+        serializer = self.serializer_class(request.user)
         return Response(serializer.data)

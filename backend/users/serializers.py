@@ -19,8 +19,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        password = validated_data.pop('password')  # Saca la contraseña del dict
-        user = User.objects.create_user(**validated_data)
+        # Extrae la contraseña y crea el usuario sin contraseña primero
+        password = validated_data.pop('password')
+        user = User.objects.create(**validated_data)
         user.set_password(password)  # Encripta la contraseña
         user.save()
         return user

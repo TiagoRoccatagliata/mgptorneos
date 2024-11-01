@@ -52,8 +52,8 @@ CORS_ALLOWED_ORIGINS = [
 AUTH_USER_MODEL = 'users.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-   # 'users.auth_backend.DocumentAuthBackend'
-    "django.contrib.auth.backends.ModelBackend",
+    'users.auth_backend.DocumentAuthBackend',  # Ruta a tu backend personalizado
+    'django.contrib.auth.backends.ModelBackend',  # Mantén el backend por defecto
 ]
 
 ROOT_URLCONF = 'auth.urls'

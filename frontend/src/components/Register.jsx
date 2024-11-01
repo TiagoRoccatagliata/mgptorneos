@@ -17,14 +17,23 @@ const Register = () => {
   AxiosInstance.post(`register/`, {
     document_number: data.document_number,
     email: data.email,
-    phone_number: data.phone_number,  // Asegúrate de que estás enviando el campo phone_number
+    phone_number: data.phone_number,
     password: data.password,
   })
   .then(() => {
-    navigate(`/`)
+    navigate(`/`);
   })
   .catch((error) => {
-    console.error(error);
+    if (error.response && error.response.status === 400) {
+      // Verifica si el error es de documento duplicado
+      if (error.response.data.document_number) {
+        alert("El número de documento ya está registrado. Usa otro número.");
+      } else {
+        alert("Error al registrar el usuario.");
+      }
+    } else {
+      console.error(error);
+    }
   });
 };
 

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class DocumentAuthBackend:
-    def authenticate(self, request, document_number=None, password=None):
+    def authenticate(self, request, document_number=None, password=None, **kwargs):
         try:
             user = User.objects.get(document_number=document_number)
             if user.check_password(password):
