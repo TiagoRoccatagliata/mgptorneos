@@ -25,7 +25,7 @@ const PasswordReset = () => {
             setShowMessage(true);
             setTimeout(() => {
                 navigate('/');
-            }, 2000);
+            }, 6000);
         })
         .catch((error) => {
             console.error(error); // Log detallado para el error
@@ -39,7 +39,7 @@ const PasswordReset = () => {
 
     return (
         <div className="myBackground">
-            {showMessage ? <MyMessage text={"Tu contraseña fue restablecida exitosamente, serás redirigido!"} /> : null}
+            {showMessage ? <MyMessage text={"Tu contraseña fue restablecida exitosamente, serás redirigido!"} color={'#69C9AB'} /> : null}
             <form onSubmit={handleSubmit(submission)}>
                 <Box className="whiteBox">
                     <Box className="itemBox">

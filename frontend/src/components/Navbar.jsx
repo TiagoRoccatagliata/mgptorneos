@@ -11,26 +11,42 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Link } from 'react-router-dom'; // React Router for navigation
+import { Link, useNavigate } from 'react-router-dom';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import PersonIcon from '@mui/icons-material/Person';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import HomeIcon from '@mui/icons-material/Home'; // Icono para "Inicio"
-import InfoIcon from '@mui/icons-material/Info';  // Icono para "Acerca de"
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AxiosInstance from './axiosInstance'; // Import AxiosInstance
 
 const drawerWidth = 240;
 
 export default function Navbar({ content, userRole }) {
+  const navigate = useNavigate();
+
+  // Función para manejar el cierre de sesión
+  const handleLogout = () => {
+    AxiosInstance.post('logoutall/')
+      .then(() => {
+        localStorage.removeItem('Token'); // Eliminar el token de localStorage
+        navigate('/'); // Redirigir a la página de inicio de sesión
+      })
+      .catch((error) => {
+        console.error("Error al cerrar sesión:", error);
+      });
+  };
+
   const menuItems = [
-    { text: 'Inicio', icon: <HomeIcon />, link: '/home' }, // Añadir "Inicio"
+    { text: 'Inicio', icon: <HomeIcon />, link: '/home' },
     { text: 'Torneos', icon: <SportsEsportsIcon />, link: '/torneos' },
     { text: 'Calendario', icon: <CalendarTodayIcon />, link: '/calendario' },
     { text: 'Ranking', icon: <LeaderboardIcon />, link: '/ranking' },
     { text: 'Perfil', icon: <PersonIcon />, link: '/perfil' },
-    { text: 'Acerca de', icon: <InfoIcon />, link: '/about' }, // "Acerca de"
+    { text: 'Acerca de', icon: <InfoIcon />, link: '/about' },
     { text: 'Iniciar Sesión', icon: <LoginIcon />, link: '/login' },
     { text: 'Registrarse', icon: <HowToRegIcon />, link: '/register' },
   ];
@@ -64,6 +80,13 @@ export default function Navbar({ content, userRole }) {
                 </ListItemButton>
               </ListItem>
             ))}
+            <Divider />
+            <ListItem disablePadding>
+              <ListItemButton onClick={handleLogout}>
+                <ListItemIcon><LogoutIcon /></ListItemIcon>
+                <ListItemText primary="Cerrar Sesión" />
+              </ListItemButton>
+            </ListItem>
           </List>
           {userRole === 'club' && (
             <>

@@ -8,10 +8,42 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import AxiosInstance from './axiosInstance.jsx';
 import { useNavigate } from 'react-router-dom';
+import {yupResolver} from "@hookform/resolvers/yup";
+import * as yup from "yup"
 
 const Register = () => {
   const navigate = useNavigate();
-  const { handleSubmit, control } = useForm();
+
+  // Esquema de validación Yup
+  const schema = yup.object({
+    document_number: yup
+      .string()
+      .matches(/^[0-9]+$/, "El campo solo debe contener números")
+      .required('El Número de Documento es obligatorio'),
+    email: yup
+      .string()
+      .email('Ingresa un correo electrónico válido')
+      .required('El Email es obligatorio'),
+    name: yup
+      .string()
+      .min(3, 'El Nombre debe tener al menos 3 caracteres')
+      .required('El Nombre es obligatorio'),
+    phone_number: yup
+      .string()
+      .matches(/^[0-9]+$/, "El Número de Teléfono solo debe contener números")
+      .min(10, 'El Número de Teléfono debe tener al menos 10 dígitos')
+      .required('El Número de Teléfono es obligatorio'),
+    password: yup
+      .string()
+      .min(8, 'La Contraseña debe tener al menos 8 caracteres')
+      .required('La Contraseña es obligatoria'),
+    password2: yup
+      .string()
+      .oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir')
+      .required('La Confirmación de Contraseña es obligatoria')
+  });
+
+  const { handleSubmit, control } = useForm({resolver: yupResolver(schema)});
 
   const submission = (data) => {
   AxiosInstance.post(`register/`, {

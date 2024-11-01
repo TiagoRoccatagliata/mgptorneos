@@ -7,28 +7,33 @@ import MyButton from './forms/MyButton.jsx';
 import {Link, useNavigate} from 'react-router-dom';
 import {useForm} from "react-hook-form";
 import AxiosInstance from "./axiosInstance.jsx";
+import MyMessage from "./Message.jsx";
+import {useState} from "react";
 
 const Login = () => {
     const navigate = useNavigate();
     const { handleSubmit, control } = useForm();
+    const [showMessage, setShowMessage] = useState(false);
 
-const submission = (data) => {
-  AxiosInstance.post(`login/`, {
-    document_number: data.document_number,
-    password: data.password,  // Asegúrate de incluir el campo password aquí
-  })
-  .then((response) => {
-    console.log(response)
-    localStorage.setItem('Token', response.data.token)
-    navigate('/home')
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-};
+    const submission = (data) => {
+      AxiosInstance.post(`login/`, {
+        document_number: data.document_number,
+        password: data.password,  // Asegúrate de incluir el campo password aquí
+      })
+      .then((response) => {
+        console.log(response)
+        localStorage.setItem('Token', response.data.token)
+        navigate('/home')
+      })
+      .catch((error) => {
+        setShowMessage(true)
+          console.error('Error durante Login', error)
+      });
+    };
 
   return (
       <div className="myBackground">
+          {showMessage ? <MyMessage text={"El Inicio de Sesion Fallo, Por favor reintentelo."} color={'#EC5A76'} /> : null}
         <form onSubmit={handleSubmit(submission)}>
           <Box className="whiteBox">
             <Box className="itemBox">

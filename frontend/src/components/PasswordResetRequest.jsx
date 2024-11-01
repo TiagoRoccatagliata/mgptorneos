@@ -32,7 +32,7 @@ const PasswordResetRequest = () => {
   return (
       <div className="myBackground">
 
-          {ShowMessage ? <MyMessage text={"Recibiras un email con instrucciones para resetear la contrasena! "} /> : null}
+          {ShowMessage ? <MyMessage text={"Recibiras un email con instrucciones para resetear la contrasena! "} color={'#69C9AB'}  /> : null}
           <form onSubmit={handleSubmit(submission)}>
 
 
