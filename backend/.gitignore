@@ -1,0 +1,14 @@
+# Ignora el entorno virtual
+venv/
+
+# Ignora el archivo de configuración con credenciales sensibles
+.env
+
+# Ignora las migraciones y otros archivos temporales
+*.pyc
+__pycache__/
+db.sqlite3  # Si estás usando SQLite, ignora el archivo de la base de datos
+
+# Ignora configuraciones de IDEs
+.vscode/
+.idea/
