@@ -1,0 +1,110 @@
+/* Home.module.css */
+
+.heroSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2D2D2D;
+  height: 90vh; /* Ocupa toda la altura del viewport */
+  padding: 0 5%; /* Reduce el padding horizontal */
+  color: white;
+  overflow: hidden;
+  font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu para la sección hero */
+}
+
+.content {
+  max-width: 45%; /* Ajuste del tamaño del contenido */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu para el contenido */
+}
+
+.highlightText {
+  color: #729C68;
+  font-size: 1.3rem; /* Reduce el tamaño de la fuente */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.mainTitle {
+  font-size: 3rem; /* Reduce el tamaño de la fuente */
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu para el título principal */
+}
+
+.description {
+  font-size: 1.5rem; /* Reduce el tamaño de la fuente */
+  margin-bottom: 15px;
+  line-height: 1.4;
+  font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu para la descripción */
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 10px; /* Reduce el espacio entre botones */
+}
+
+.mainButton, .secondaryButton {
+  padding: 10px 15px; /* Reduce el tamaño de los botones */
+  font-size: 1.3rem;
+  border-radius: 5px;
+    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu para los botones */
+}
+
+.mainButton {
+  background-color: #729C68;
+  color: white;
+  border: none;
+}
+
+.secondaryButton {
+  background-color: transparent;
+  color: white;
+  border: 2px solid #729C68;
+}
+
+.img {
+  width: 40%;
+  height: auto;
+  object-fit: cover;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 100%);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: clip-path 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  .heroSection {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    height: 100vh;
+  }
+
+  .content {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .mainTitle {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+  }
+
+  .buttonsContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .img {
+    width: 80%;
+    margin-top: 10px;
+  }
+}

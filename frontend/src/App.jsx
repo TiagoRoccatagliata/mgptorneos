@@ -4,7 +4,6 @@ import Home from './components/Home.jsx'
 import Register from './components/Register.jsx'
 import Login from './components/Login.jsx'
 import Navbar from './components/Navbar.jsx'
-import About from './components/About.jsx'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import ProtectedRoutes from './components/ProtectedRoutes.jsx'
 import PasswordResetRequest from "./components/PasswordResetRequest.jsx";
@@ -30,7 +29,6 @@ function App() {
                             <Routes>
                                 <Route element={<ProtectedRoutes/>}>
                                     <Route path="/home" element={<Home/>}/>
-                                    <Route path="/about" element={<About/>}/>
                                 </Route>
                             </Routes>
                         }
