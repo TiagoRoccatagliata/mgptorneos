@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Club, PlayerStats, Tournament, TournamentRegistration
+from .models import Tournament
 
-admin.site.register(Club)
-admin.site.register(PlayerStats)
-admin.site.register(Tournament)
-admin.site.register(TournamentRegistration)
+@admin.register(Tournament)
+class TournamentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'start_date', 'end_date', 'creator', 'is_private', 'club_name')
+    search_fields = ('name', 'creator', 'club_name')
+    list_filter = ('is_private',)

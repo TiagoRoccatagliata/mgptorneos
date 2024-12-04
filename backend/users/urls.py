@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import UserProfileView, PlayerRankingView
+from . import views
 
 urlpatterns = [
-    path('', UserProfileView.as_view(), name='user_profile'),  # Perfil del usuario
-    path('rankings/', PlayerRankingView.as_view(), name='player_rankings'),  # Rankings de jugadores
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('profile/', views.UserProfileView.as_view(), name='profile'),
 ]

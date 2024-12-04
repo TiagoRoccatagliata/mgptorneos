@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import TournamentListView, TournamentDetailView, TournamentEnrollView
+from . import views
 
 urlpatterns = [
-    path('', TournamentListView.as_view(), name='tournament_list'),  # Lista de torneos
-    path('<int:id>/', TournamentDetailView.as_view(), name='tournament_detail'),  # Detalles de un torneo específico
-    path('<int:id>/enroll/', TournamentEnrollView.as_view(), name='tournament_enroll'),  # Inscribirse en un torneo
+    path('', views.TournamentListCreateView.as_view(), name='tournament_list_create'),
+    path('<int:pk>/', views.TournamentDetailView.as_view(), name='tournament_detail'),
+    path('<int:pk>/enroll/', views.EnrollInTournamentView.as_view(), name='tournament_enroll'),
 ]
