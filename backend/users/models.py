@@ -36,7 +36,7 @@ class CustomUserManager(BaseUserManager):
 USER_ROLES = (
     ('player', 'Player'),
     ('club', 'Club'),
-    ('admin', 'Admin'),  # Aseguramos que exista el rol de admin
+    ('admin', 'Admin'),
 )
 
 
@@ -57,29 +57,57 @@ class CustomUser(AbstractUser):
         return f"{self.document_number} - {self.role}"
 
 
+# Modelo para estadísticas de jugadores
+class PlayerStats(models.Model):
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        limit_choices_to={'role': 'player'},
+        related_name="player_stats_users"
+    )
+    matches_played = models.PositiveIntegerField(default=0, verbose_name="Partidos Jugados")
+    matches_won = models.PositiveIntegerField(default=0, verbose_name="Partidos Ganados")
+    points_scored = models.PositiveIntegerField(default=0, verbose_name="Puntos Obtenidos")
+    category = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name="Categoría",
+        choices=[('4ta', '4ta'), ('5ta', '5ta'), ('6ta', '6ta'), ('7ma', '7ma')]
+    )
+
+    def win_rate(self):
+        """ Calcula la tasa de victorias como porcentaje. """
+        if self.matches_played > 0:
+            return round((self.matches_won / self.matches_played) * 100, 2)
+        return 0
+
+    class Meta:
+        verbose_name = "Estadística de Jugador"
+        verbose_name_plural = "Estadísticas de Jugadores"
+
+    def __str__(self):
+        return f"Stats for {self.user.document_number} - {self.points_scored} puntos"
+
+
 # Receiver para el reseteo de contraseña
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    # Enlace al frontend (ajusta este enlace si tu frontend está en producción)
-    sitelink = "http://localhost:5173/"
-    # Modificamos el enlace para que incluya el token en la URL
+    sitelink = "http://localhost:5173/"  # Cambia esto en producción
     full_link = f"{sitelink}password-reset/{reset_password_token.key}"
 
-    # Contexto para el email
     context = {
         'full_link': full_link,
         'email_adress': reset_password_token.user.email,
     }
 
-    # Renderizado del contenido HTML y texto plano del mensaje
     html_message = render_to_string("backend/email.html", context=context)
     plain_message = strip_tags(html_message)
 
-    # Configuración y envío del correo electrónico
     msg = EmailMultiAlternatives(
         subject="Solicitud de restablecimiento de contraseña",
         body=plain_message,
-        from_email='no-reply@tu-dominio.com',  # Asegúrate de configurar correctamente el email
+        from_email='no-reply@tu-dominio.com',
         to=[reset_password_token.user.email],
     )
     msg.attach_alternative(html_message, "text/html")

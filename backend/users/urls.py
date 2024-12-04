@@ -1,9 +1,7 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-from .views import *
+from .views import UserProfileView, PlayerRankingView
 
-router = DefaultRouter()
-router.register('register', RegisterViewset, basename='register')  # Cambia 'users' por 'register'
-router.register('login', LoginViewset, basename='login')  # Cambia 'users' por 'register'
-router.register('users', UserViewset, basename='users')
-urlpatterns = router.urls
+urlpatterns = [
+    path('', UserProfileView.as_view(), name='user_profile'),  # Perfil del usuario
+    path('rankings/', PlayerRankingView.as_view(), name='player_rankings'),  # Rankings de jugadores
+]

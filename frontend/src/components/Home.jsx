@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import AxiosInstance from './axiosInstance';
 import styles from './Home.module.css';
 import img1 from '../assets/images/img1.jpg';
@@ -11,6 +12,7 @@ const Home = () => {
   const [myData, setMyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,7 +23,7 @@ const Home = () => {
   }, []);
 
   const GetData = () => {
-    AxiosInstance.get('users/')
+    AxiosInstance.get('api/users/')
       .then((res) => {
         setMyData(res.data);
         setLoading(false);
@@ -46,8 +48,8 @@ const Home = () => {
             Únete a miles de jugadores que confían en MGP para gestionar sus torneos, organizar eventos y mantener a su comunidad informada y en competencia.
           </p>
           <div className={styles.buttonsContainer}>
-            <button className={styles.mainButton}>REGISTRARSE</button>
-            <button className={styles.secondaryButton}>PRÓXIMOS</button>
+            <button className={styles.mainButton} onClick={() => navigate("/register")}>REGISTRARSE</button>
+            <button className={styles.secondaryButton} onClick={() => navigate("/torneos")}>PRÓXIMOS</button>
           </div>
         </div>
         <img src={images[currentImageIndex]} alt="Imagen descriptiva" className={styles.img} />

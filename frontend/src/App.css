@@ -1,27 +1,25 @@
-/* App.css */
-
-
-* {
+/* Estilos globales */
+html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
   font-family: Arial, sans-serif;
   color: #333;
-  background-color: #f4f4f4;
+  background-color: #1F1F1F;
 }
 
-.myBackground {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #333;
+/* Botones globales */
+button {
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-family: Arial, sans-serif;
 }
 
+button:hover {
+  background-color: #555;
+}
+
+/* Caja blanca */
 .whiteBox {
   background-color: white;
   padding: 20px;
@@ -32,24 +30,136 @@ body {
   border-radius: 8px;
 }
 
-.itemBox {
+/* Clases específicas para el calendario */
+.calendar-page {
+  padding: 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background-color: #1F1F1F;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 80px;
+  max-width: 1200px;
 }
 
-.title {
-  font-size: 30px;
-  color: #333;
+.calendar-title {
+  color: #729C68;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-button {
-  cursor: pointer;
+.calendar-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-btn {
+  background-color: #729C68;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
   transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #555;
+.calendar-btn:hover {
+  background-color: #567A51;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #2D2D2D;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.rbc-calendar {
+  font-family: Arial, sans-serif;
+}
+
+.rbc-toolbar {
+  display: none; /* Escondemos el toolbar original porque usamos botones personalizados */
+}
+
+.rbc-month-view {
+  border-collapse: collapse;
+}
+
+.rbc-month-view .rbc-header {
+  background-color: #3D3D3D;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.rbc-event {
+  background-color: #729C68 !important;
+  color: white;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+.rbc-today {
+  background-color: rgba(114, 156, 104, 0.2);
+}
+
+/* Estilos para las celdas del calendario */
+.rbc-day-bg {
+  background-color: #2D2D2D !important; /* Fondo gris oscuro */
+}
+
+.rbc-off-range-bg {
+  background-color: #1F1F1F !important; /* Fondo más oscuro para días fuera del mes */
+}
+
+.rbc-today {
+  background-color: #333 !important; /* Fondo para el día actual */
+}
+
+/* Estilos para los días numerados */
+.rbc-date-cell {
+  color: white !important; /* Números de los días en blanco */
+}
+
+/* Estilo para celdas del mes anterior o siguiente */
+.rbc-off-range {
+  color: #666 !important; /* Números de los días fuera del rango en gris claro */
+}
+.calendar-page {
+  padding: 20px;
+  background-color: #1F1F1F;
+  color: white;
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.calendar-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}e
+
+.calendar-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #729C68;
+  color: white;
+  cursor: pointer;
+}
+
+.calendar-btn:hover {
+  background-color: #5C8755;
 }

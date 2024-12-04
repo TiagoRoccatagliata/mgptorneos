@@ -1,15 +1,48 @@
-// Register.jsx
-import '../App.css';
-import { Box } from '@mui/material';
-import MyTextField from './forms/MyTextField.jsx';
-import MyPassField from './forms/MyPassField.jsx';
-import MyButton from './forms/MyButton.jsx';
-import { Link } from 'react-router-dom';
+import * as React from 'react';
+import { Box, Typography, Button, FormControl, FormLabel, TextField, Link, Divider } from '@mui/material';
+import MuiCard from '@mui/material/Card';
+import { styled } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
-import AxiosInstance from './axiosInstance.jsx';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-import {yupResolver} from "@hookform/resolvers/yup";
-import * as yup from "yup"
+import AxiosInstance from './axiosInstance';
+import * as yup from 'yup';
+
+// Estilos personalizados
+const Card = styled(MuiCard)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  width: '100%',
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+  margin: 'auto',
+  [theme.breakpoints.up('sm')]: {
+    maxWidth: '450px',
+  },
+  boxShadow:
+    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  backgroundColor: '#2D2D2D',
+  color: 'white',
+}));
+
+const SignUpContainer = styled(Box)(({ theme }) => ({
+  height: '100vh',
+  minHeight: '100%',
+  padding: theme.spacing(2),
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#1F1F1F',
+}));
+
+const StyledButton = styled(Button)({
+  backgroundColor: '#729C68',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: '#5C8755',
+  },
+});
 
 const Register = () => {
   const navigate = useNavigate();
@@ -43,108 +76,157 @@ const Register = () => {
       .required('La Confirmación de Contraseña es obligatoria')
   });
 
-  const { handleSubmit, control } = useForm({resolver: yupResolver(schema)});
+  const { handleSubmit, control } = useForm({ resolver: yupResolver(schema) });
 
-  const submission = (data) => {
-  AxiosInstance.post(`register/`, {
-    document_number: data.document_number,
-    email: data.email,
-    phone_number: data.phone_number,
-    password: data.password,
-  })
-  .then(() => {
-    navigate(`/`);
-  })
-  .catch((error) => {
-    if (error.response && error.response.status === 400) {
-      // Verifica si el error es de documento duplicado
-      if (error.response.data.document_number) {
-        alert("El número de documento ya está registrado. Usa otro número.");
+const submission = (data) => {
+    AxiosInstance.post('/api/auth/register/', {
+      document_number: data.document_number,
+      email: data.email,
+      name: data.name,
+      phone_number: data.phone_number,
+      password: data.password,
+    })
+    .then(() => {
+      navigate('/');
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 400) {
+        if (error.response.data.document_number) {
+          alert("El número de documento ya está registrado. Usa otro número.");
+        } else {
+          alert("Error al registrar el usuario.");
+        }
       } else {
-        alert("Error al registrar el usuario.");
+        console.error(error);
       }
-    } else {
-      console.error(error);
-    }
-  });
-};
+    });
+  };
 
   return (
-    <div className="myBackground">
-      <form onSubmit={handleSubmit(submission)}>
-        <Box className="whiteBox">
-          <Box className="itemBox">
-            <Box className="title">Registro</Box>
-          </Box>
-
-          {/* Documento */}
-          <Box className="itemBox">
-            <MyTextField
-              label="Documento"
+    <SignUpContainer>
+      <Card variant="outlined">
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+        >
+          Registro
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(submission)}
+          noValidate
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            gap: 2,
+          }}
+        >
+          <FormControl>
+            <FormLabel htmlFor="document_number" sx={{ color: '#729C68' }}>Documento</FormLabel>
+            <TextField
+              id="document_number"
               name="document_number"
-              control={control}
+              placeholder="Tu documento"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("document_number")}
             />
-          </Box>
+          </FormControl>
 
-          {/* Email */}
-          <Box className="itemBox">
-            <MyTextField
-              label="Email"
+          <FormControl>
+            <FormLabel htmlFor="email" sx={{ color: '#729C68' }}>Email</FormLabel>
+            <TextField
+              id="email"
               name="email"
-              control={control}
+              placeholder="Correo electrónico"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("email")}
             />
-          </Box>
+          </FormControl>
 
-          {/* Nombre */}
-          <Box className="itemBox">
-            <MyTextField
-              label="Nombre"
+          <FormControl>
+            <FormLabel htmlFor="name" sx={{ color: '#729C68' }}>Nombre</FormLabel>
+            <TextField
+              id="name"
               name="name"
-              control={control}
+              placeholder="Tu nombre"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("name")}
             />
-          </Box>
+          </FormControl>
 
-          {/* Teléfono */}
-          <Box className="itemBox">
-            <MyTextField
-              label="Número de Teléfono"
+          <FormControl>
+            <FormLabel htmlFor="phone_number" sx={{ color: '#729C68' }}>Número de Teléfono</FormLabel>
+            <TextField
+              id="phone_number"
               name="phone_number"
-              control={control}
+              placeholder="Número de Teléfono"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("phone_number")}
             />
-          </Box>
+          </FormControl>
 
-          {/* Contraseña */}
-          <Box className="itemBox">
-            <MyPassField
-              label="Contraseña"
+          <FormControl>
+            <FormLabel htmlFor="password" sx={{ color: '#729C68' }}>Contraseña</FormLabel>
+            <TextField
+              id="password"
               name="password"
-              control={control}
+              type="password"
+              placeholder="••••••"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("password")}
             />
-          </Box>
+          </FormControl>
 
-          {/* Confirmar Contraseña */}
-          <Box className="itemBox">
-            <MyPassField
-              label="Confirmar Contraseña"
+          <FormControl>
+            <FormLabel htmlFor="password2" sx={{ color: '#729C68' }}>Confirmar Contraseña</FormLabel>
+            <TextField
+              id="password2"
               name="password2"
-              control={control}
+              type="password"
+              placeholder="••••••"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("password2")}
             />
-          </Box>
+          </FormControl>
 
-          {/* Botón de registro */}
-          <Box className="itemBox">
-            <MyButton
-              type="submit"
-              label="Registrarse"
-            />
-          </Box>
+          <StyledButton
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
+            Registrarse
+          </StyledButton>
 
-          <Box className="itemBox">
-            <Link to="/">¿Ya tienes cuenta? Inicia sesión!</Link>
-          </Box>
+          <Typography sx={{ textAlign: 'center', color: 'white' }}>
+            ¿Ya tienes cuenta?{' '}
+            <Link href="/" variant="body2" sx={{ color: '#729C68' }}>
+              Inicia sesión
+            </Link>
+          </Typography>
         </Box>
-      </form>
-    </div>
+        <Divider sx={{ borderColor: '#729C68' }} />
+      </Card>
+    </SignUpContainer>
   );
 };
 

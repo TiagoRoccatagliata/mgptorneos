@@ -1,72 +1,143 @@
+import * as React from 'react';
+import { useState } from 'react';
+import { Box, Button, CssBaseline, Divider, FormControl, FormLabel, Link, TextField, Typography, Stack, Checkbox, FormControlLabel } from '@mui/material';
+import MuiCard from '@mui/material/Card';
+import { styled } from '@mui/material/styles';
+import { useForm } from 'react-hook-form';
+import AxiosInstance from './axiosInstance';
+import { useNavigate } from 'react-router-dom';
+import MyMessage from "./Message";
 
-import '../App.css';
-import { Box } from '@mui/material';
-import MyTextField from './forms/MyTextField.jsx';
-import MyPassField from './forms/MyPassField.jsx';
-import MyButton from './forms/MyButton.jsx';
-import {Link, useNavigate} from 'react-router-dom';
-import {useForm} from "react-hook-form";
-import AxiosInstance from "./axiosInstance.jsx";
-import MyMessage from "./Message.jsx";
-import {useState} from "react";
+const Card = styled(MuiCard)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  width: '100%',
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+  margin: 'auto',
+  [theme.breakpoints.up('sm')]: {
+    maxWidth: '450px',
+  },
+  boxShadow:
+    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  backgroundColor: '#2D2D2D', // Fondo oscuro similar al Home
+  color: 'white', // Texto en blanco para mejor contraste
+}));
 
-const Login = () => {
-    const navigate = useNavigate();
-    const { handleSubmit, control } = useForm();
-    const [showMessage, setShowMessage] = useState(false);
+const SignInContainer = styled(Stack)(({ theme }) => ({
+  height: '100vh',
+  minHeight: '100%',
+  padding: theme.spacing(2),
+  [theme.breakpoints.up('sm')]: {
+    padding: theme.spacing(4),
+  },
+  backgroundColor: '#1F1F1F', // Fondo del contenedor de inicio de sesión
+}));
 
-    const submission = (data) => {
-      AxiosInstance.post(`login/`, {
-        document_number: data.document_number,
-        password: data.password,  // Asegúrate de incluir el campo password aquí
-      })
-      .then((response) => {
-        console.log(response)
-        localStorage.setItem('Token', response.data.token)
-        navigate('/home')
-      })
-      .catch((error) => {
-        setShowMessage(true)
-          console.error('Error durante Login', error)
-      });
-    };
+const StyledButton = styled(Button)({
+  backgroundColor: '#729C68', // Verde primario
+  color: 'white',
+  '&:hover': {
+    backgroundColor: '#5C8755', // Color más oscuro al hacer hover
+  },
+});
+
+export default function Login() {
+  const navigate = useNavigate();
+  const { handleSubmit, control } = useForm();
+  const [showMessage, setShowMessage] = useState(false); // Aquí está la importación de useState
+
+  const submission = (data) => {
+    AxiosInstance.post('/api/auth/login/', {
+      document_number: data.document_number,
+      password: data.password,
+    })
+    .then((response) => {
+      localStorage.setItem('Token', response.data.token);
+      navigate('/home');
+    })
+    .catch((error) => {
+      setShowMessage(true);
+      console.error('Error durante el inicio de sesión', error);
+    });
+  };
 
   return (
-      <div className="myBackground">
-          {showMessage ? <MyMessage text={"El Inicio de Sesion Fallo, Por favor reintentelo."} color={'#EC5A76'} /> : null}
-        <form onSubmit={handleSubmit(submission)}>
-          <Box className="whiteBox">
-            <Box className="itemBox">
-              <Box className="title">Inicio de Sesión</Box>
+    <SignInContainer direction="column" justifyContent="center">
+      <CssBaseline />
+      {showMessage && <MyMessage text="El Inicio de Sesión Falló, Por favor reinténtelo." color="#EC5A76" />}
+      <Card variant="outlined">
+        <Typography
+          component="h1"
+          variant="h4"
+          sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+        >
+          Inicio de Sesión
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(submission)}
+          noValidate
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            gap: 2,
+          }}
+        >
+          <FormControl>
+            <FormLabel htmlFor="document_number" sx={{ color: '#729C68' }}>Documento</FormLabel>
+            <TextField
+              id="document_number"
+              name="document_number"
+              placeholder="Tu documento"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("document_number")}
+            />
+          </FormControl>
+          <FormControl>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <FormLabel htmlFor="password" sx={{ color: '#729C68' }}>Contraseña</FormLabel>
+              <Link href="/request/password_reset" variant="body2" sx={{ color: '#729C68' }}>
+                ¿Olvidaste la Contraseña?
+              </Link>
             </Box>
-            <Box className="itemBox">
-              <MyTextField
-                  label="Documento"
-                  name={"document_number"}
-                  control={control}
-              />
-            </Box>
-            <Box className="itemBox">
-              <MyPassField
-                label="Contraseña"
-                name={"password"}
-                control={control}
-              />
-</Box>
-            <Box className="itemBox">
-              <MyButton
-                  label="Iniciar Sesión"
-                  type="submit"
-              />
-            </Box>
-            <Box className="itemBox" sx={{flexDirection:'column'}}>
-              <Link to="/register">¿Sin cuenta? Regístrate Gratis!</Link>
-                <Link to="/request/password_reset">Olvidaste la Contraseña?</Link>
-            </Box>
-          </Box>
-        </form>
-      </div>
-);
-};
-
-export default Login;
+            <TextField
+              id="password"
+              name="password"
+              type="password"
+              placeholder="••••••"
+              required
+              fullWidth
+              variant="outlined"
+              InputProps={{ style: { color: 'white' } }}
+              {...control.register("password")}
+            />
+          </FormControl>
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Recuérdame"
+            sx={{ color: 'white' }}
+          />
+          <StyledButton
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
+            Iniciar Sesión
+          </StyledButton>
+          <Typography sx={{ textAlign: 'center', color: 'white' }}>
+            ¿No tienes cuenta?{' '}
+            <Link href="/register" variant="body2" sx={{ color: '#729C68' }}>
+              Regístrate Gratis
+            </Link>
+          </Typography>
+        </Box>
+      </Card>
+    </SignInContainer>
+  );
+}

@@ -4,8 +4,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #2D2D2D;
-  height: 90vh; /* Ocupa toda la altura del viewport */
+  background-color: #1F1F1F;
+  height: 100vh; /* Ocupa toda la altura del viewport */
   padding: 0 5%; /* Reduce el padding horizontal */
   color: white;
   overflow: hidden;

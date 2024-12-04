@@ -1,0 +1,49 @@
+.rbc-calendar {
+  background-color: #2D2D2D;
+  color: white;
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rbc-toolbar button {
+  background-color: #729C68;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #567A51;
+}
+
+.rbc-month-view {
+  border-collapse: collapse;
+}
+
+.rbc-month-view .rbc-header {
+  background-color: #3D3D3D;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.rbc-event {
+  background-color: #729C68 !important;
+  color: white;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+.rbc-today {
+  background-color: rgba(114, 156, 104, 0.2);
+}

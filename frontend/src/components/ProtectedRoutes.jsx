@@ -1,15 +1,14 @@
-import { Outlet, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-const ProtectedRoutes = () => {
+const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('Token');
 
-  // Verifica si hay un token válido
+  // Si no hay token, redirige a login
   if (!token) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
-  // Renderiza los componentes protegidos si hay un token
-  return <Outlet />;
+  return children;
 };
 
-export default ProtectedRoutes;
+export default ProtectedRoute;
